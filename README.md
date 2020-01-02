@@ -6,7 +6,7 @@
 
 1월 2일
 
-  - 문제점 : exports.login_info = login_info; 가 작동안됨
+  - 문제점 : 자바스크립트의 비동기 처리방식으로 exports.login_info = login_info; 가 작동안됨, 자바스크립트의 비동기 처리란 특정 코드의 연산이 끝날 때까지 코드의 실행을 멈추지 않고 다음 코드를 먼저 실행하는 자바스크립트의 특성을 의미
   
         request(options, function (error, response) {
           if (error) throw new Error(error);
@@ -15,19 +15,17 @@
           exports.login_info = login_info;
         });
 
-  - 해결방법 : 자바스크립트의 비동기 처리방식
+  - 해결방법 : 콜백함수
   
-        자바스크립트의 비동기 처리란 특정 코드의 연산이 끝날 때까지 코드의 실행을 멈추지 않고 다음 코드를 먼저 실행하는 자바스크립트의 특성을 의미하는데, 문제점에서 처럼 exports로 안내보내지고, request 안에서 필요한 작업을 수행해야한다.
-  
-        request(options, function (error, response) { 
-          if (error) throw new Error(error);
-          let login_info = JSON.parse(response.body);
-          //console.log(login_info);
-          let message = login_info.message;
+         function getData(callbackFunc){
+          request(options, function (error, response) {
+            if (error) throw new Error(error);
+            let login_info = JSON.parse(response.body);
+            callbackFunc(login_info);
+          });
+         }
 
-          if (message === 'ok'){
-            res.send(login_info);
-          } else {
-            res.send('아이디 또는 비밀번호가 틀렸습니다.')
-          }
+         //callback
+        getData(function(tableData){
+          console.log(tableData);
         });
