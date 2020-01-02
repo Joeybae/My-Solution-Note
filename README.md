@@ -6,7 +6,7 @@
 
 1월 2일
 
-  - 문제점 : 자바스크립트의 비동기 처리방식으로 exports.login_info = login_info; 가 작동안됨, 자바스크립트의 비동기 처리란 특정 코드의 연산이 끝날 때까지 코드의 실행을 멈추지 않고 다음 코드를 먼저 실행하는 자바스크립트의 특성을 의미
+  - 문제점 : 자바스크립트의 비동기 처리방식으로 exports.login_info = login_info; 가 작동안됨
   
         request(options, function (error, response) {
           if (error) throw new Error(error);
